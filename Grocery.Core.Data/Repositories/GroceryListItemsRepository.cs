@@ -15,7 +15,8 @@ namespace Grocery.Core.Data.Repositories
                             [Id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                             [GroceryListId] INTEGER NOT NULL,
                             [ProductId] INTEGER NOT NULL,
-                            [Amount] INTEGER NOT NULL)");
+                            [Amount] INTEGER NOT NULL,
+                            UNIQUE(GroceryListId, ProductId));");
             List<string> insertQueries = [@"INSERT OR IGNORE INTO GroceryListItem(GroceryListId, ProductId, Amount) VALUES(1, 1, 3)",
                                           @"INSERT OR IGNORE INTO GroceryListItem(GroceryListId, ProductId, Amount) VALUES(1, 2, 1)",
                                           @"INSERT OR IGNORE INTO GroceryListItem(GroceryListId, ProductId, Amount) VALUES(1, 3, 4)",
@@ -44,18 +45,12 @@ namespace Grocery.Core.Data.Repositories
                 }
             }
             CloseConnection();
-
-            foreach(GroceryListItem item in groceryListItems)
-            {
-                System.Diagnostics.Debug.WriteLine(item.Id);
-            }
-
             return groceryListItems;
         }
 
         public List<GroceryListItem> GetAllOnGroceryListId(int id)
         {
-            return groceryListItems.Where(g => g.GroceryListId == id).ToList();
+            return GetAll().Where(g => g.GroceryListId == id).ToList();
         }
 
         public GroceryListItem Add(GroceryListItem item)
@@ -110,7 +105,7 @@ namespace Grocery.Core.Data.Repositories
         public GroceryListItem? Update(GroceryListItem item)
         {
             int recordsAffected;
-            string updateQuery = $"UPDATE GroceryList SET GroceryListId = @GroceryListId, ProductId = @ProductId, Amount = @Amount  WHERE Id = {item.Id};";
+            string updateQuery = $"UPDATE GroceryListItem SET GroceryListId = @GroceryListId, ProductId = @ProductId, Amount = @Amount  WHERE Id = {item.Id};";
             OpenConnection();
             using (SqliteCommand command = new(updateQuery, Connection))
             {
