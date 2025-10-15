@@ -6,4 +6,19 @@
              x:Class="Grocery.App.Views.NewProductView"
              x:DataType="vm:NewProductViewModel"
              Title="NewProductView">
+			
+	<Shell.TitleView>
+        <Grid>
+            <Label Text="Product toevoegen" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
+        </Grid>
+    </Shell.TitleView>
+	
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Label Text="Naam product" />
+        <Entry Placeholder="Naam"
+               Text="{Binding ProductName}"
+               Keyboard="Default"
+               MaxLength="50" />
+    </VerticalStackLayout>
+
 </ContentPage>
