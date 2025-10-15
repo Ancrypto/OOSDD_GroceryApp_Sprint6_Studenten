@@ -19,6 +19,10 @@
                Text="{Binding ProductName}"
                Keyboard="Default"
                MaxLength="50" />
+	    <Button Text="Add"
+            Command="{Binding AddProductCommand}"
+            Padding="10"
+            CornerRadius="8" />
     </VerticalStackLayout>
 
 </ContentPage>

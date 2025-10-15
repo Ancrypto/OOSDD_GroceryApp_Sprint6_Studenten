@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Grocery.Core.Interfaces.Services;
 using Grocery.Core.Models;
+using Grocery.App.Views;
 using Grocery.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,14 @@ namespace Grocery.App.ViewModels
         }
 
         [RelayCommand]
-        private void AddProduct(Product product)
+        private async Task AddProduct()
         {
             if(client.Role == Role.Admin)
             {
-                _productService.Add(product);
+                _productService.Add(new Product(0, productName, 0));
             }
+            await Shell.Current.GoToAsync(nameof(ProductView), true);
+
         }
     }
 }
